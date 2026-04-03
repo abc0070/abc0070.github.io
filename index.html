@@ -40,41 +40,35 @@
             <p>최신 AI 기술과 전통 명리학을 결합하여 여러분의 일상에 행운을 더합니다.</p>
         </header>
 
-        <!-- 오늘의 운세 섹션 추가 -->
+        <!-- 사이트 소개 섹션 -->
+        <section id="about" class="container about-section">
+            <div class="about-content">
+                <div class="about-icon"><i class="fas fa-microscope"></i></div>
+                <h2>AI 행운연구소는 어떤 곳인가요?</h2>
+                <p><strong>AI 행운연구소</strong>는 첨단 인공지능 기술과 동양의 전통 명리학을 결합하여 현대인의 일상에 작은 즐거움과 행운을 전달하기 위해 설립되었습니다.</p>
+                <div class="values-grid">
+                    <div class="value-item"><i class="fas fa-shield-alt"></i><h4>철저한 프라이버시</h4><p>모든 분석은 서버 전송 없이 로컬 환경에서 안전하게 수행됩니다.</p></div>
+                    <div class="value-item"><i class="fas fa-chart-line"></i><h4>데이터 기반 분석</h4><p>수만 장의 데이터와 전통 알고리즘을 바탕으로 신뢰도 높은 결과를 제공합니다.</p></div>
+                    <div class="value-item"><i class="fas fa-gift"></i><h4>무료 서비스 제공</h4><p>누구나 제한 없이 모든 기능을 100% 무료로 이용하실 수 있습니다.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 오늘의 운세 섹션 -->
         <section id="today-fortune" class="container fortune-section">
             <h2>✨ 오늘의 운세</h2>
             <p class="subtitle">당신의 생년월일을 입력하고 오늘 하루의 기운을 확인하세요.</p>
-            
             <div class="fortune-form">
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>이름</label>
-                        <input type="text" id="user-name" placeholder="이름 입력" required>
-                    </div>
-                    <div class="form-group">
-                        <label>생년월일</label>
-                        <input type="date" id="fortune-birth" required>
-                    </div>
+                    <div class="form-group"><label>이름</label><input type="text" id="user-name" placeholder="이름 입력" required></div>
+                    <div class="form-group"><label>생년월일</label><input type="date" id="fortune-birth" required></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label>성별</label>
-                        <select id="fortune-gender">
-                            <option value="male">남성</option>
-                            <option value="female">여성</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>양력/음력</label>
-                        <select id="fortune-calendar">
-                            <option value="solar">양력</option>
-                            <option value="lunar">음력</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label>성별</label><select id="fortune-gender"><option value="male">남성</option><option value="female">여성</option></select></div>
+                    <div class="form-group"><label>양력/음력</label><select id="fortune-calendar"><option value="solar">양력</option><option value="lunar">음력</option></select></div>
                 </div>
                 <button type="button" id="fortune-btn">오늘의 운세 보기</button>
             </div>
-
             <div id="fortune-result" class="fortune-result" style="display:none;">
                 <div class="total-luck">
                     <div class="luck-icon" id="total-icon">🌟</div>
@@ -82,26 +76,11 @@
                     <p id="total-comment">오늘은 모든 일이 술술 풀리는 날입니다!</p>
                 </div>
                 <div class="luck-scores">
-                    <div class="score-item">
-                        <span>💰 금전운</span>
-                        <div class="progress-bar"><div class="progress-fill" id="money-bar"></div></div>
-                        <span id="money-text">90%</span>
-                    </div>
-                    <div class="score-item">
-                        <span>❤️ 애정운</span>
-                        <div class="progress-bar"><div class="progress-fill" id="love-bar"></div></div>
-                        <span id="love-text">85%</span>
-                    </div>
-                    <div class="score-item">
-                        <span>💪 건강운</span>
-                        <div class="progress-bar"><div class="progress-fill" id="health-bar"></div></div>
-                        <span id="health-text">70%</span>
-                    </div>
+                    <div class="score-item"><span>💰 금전운</span><div class="progress-bar"><div class="progress-fill" id="money-bar"></div></div><span id="money-text">90%</span></div>
+                    <div class="score-item"><span>❤️ 애정운</span><div class="progress-bar"><div class="progress-fill" id="love-bar"></div></div><span id="love-text">85%</span></div>
+                    <div class="score-item"><span>💪 건강운</span><div class="progress-bar"><div class="progress-fill" id="health-bar"></div></div><span id="health-text">70%</span></div>
                 </div>
-                <div class="advice-box">
-                    <h4>💡 오늘의 조언</h4>
-                    <p id="daily-advice">새로운 인연이 찾아올 수 있으니 밝은 미소를 유지하세요.</p>
-                </div>
+                <div class="advice-box"><h4>💡 오늘의 조언</h4><p id="daily-advice">새로운 인연이 찾아올 수 있으니 밝은 미소를 유지하세요.</p></div>
             </div>
         </section>
 
@@ -140,13 +119,34 @@
             </div>
         </section>
 
-        <!-- 로또 추첨기 섹션 -->
-        <section id="lotto-gen" class="container">
+        <!-- 로또 추첨기 섹션 (보너스 번호 추가 버전) -->
+        <section id="lotto-gen" class="container lotto-section">
             <h2>🍀 로또 번호 추첨기</h2>
-            <div class="numbers-container">
-                <div class="number-circle">?</div><div class="number-circle">?</div><div class="number-circle">?</div><div class="number-circle">?</div><div class="number-circle">?</div><div class="number-circle">?</div>
+            <p class="subtitle">행운의 당첨 번호 6개와 보너스 번호를 확인하세요!</p>
+            <div class="lotto-display">
+                <div class="numbers-main">
+                    <div class="number-circle">?</div>
+                    <div class="number-circle">?</div>
+                    <div class="number-circle">?</div>
+                    <div class="number-circle">?</div>
+                    <div class="number-circle">?</div>
+                    <div class="number-circle">?</div>
+                </div>
+                <div class="bonus-divider"><i class="fas fa-plus"></i></div>
+                <div class="numbers-bonus">
+                    <div class="number-circle bonus-circle" data-label="보너스">?</div>
+                </div>
             </div>
             <button id="generate-btn">번호 추첨하기</button>
+        </section>
+
+        <!-- 정보 섹션 -->
+        <section id="info-section" class="container info-section">
+            <h2>🎲 행운을 부르는 생활 습관</h2>
+            <div class="article-grid">
+                <article><h3>1. 긍정적인 마음가짐</h3><p>심리학에 따르면 긍정적인 기대는 실제로 운을 높이는 행동으로 이어진다고 합니다.</p></article>
+                <article><h3>2. 통계로 본 행운</h3><p>매주 작은 금액으로 즐기는 즐거움은 일상의 활력소가 될 수 있습니다.</p></article>
+            </div>
         </section>
 
         <!-- 제휴 문의 섹션 -->
