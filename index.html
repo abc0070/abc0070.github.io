@@ -3,41 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>인생역전! 로또 & 동물상 테스트</title>
-    
-    <!-- 구글 애드센스 소유권 확인 코드 -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6499389234088872"
-     crossorigin="anonymous"></script>
+    <title>인생역전! 로또 추첨 & AI 동물상 테스트</title>
+    <meta name="description" content="인공지능을 이용한 동물상 테스트와 로또 번호 생성 서비스를 제공합니다. 당신의 행운을 인공지능과 함께 확인해보세요.">
+    <meta name="keywords" content="로또번호추첨, 동물상테스트, AI동물상, 인공지능, 행운추첨, 로또당첨번호">
+
+    <!-- 구글 애드센스 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6499389234088872" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- TensorFlow 및 Teachable Machine 스크립트 -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
-    <button id="theme-toggle" aria-label="테마 전환">
-        <i class="fas fa-moon"></i>
-    </button>
+    <nav id="top-nav">
+        <div class="nav-content">
+            <span class="logo">🍀 AI 행운연구소</span>
+            <div class="menu">
+                <a href="#animal-test">동물상테스트</a>
+                <a href="#lotto-gen">로또추첨기</a>
+                <a href="#info-section">행운정보</a>
+                <a href="#contact">문의하기</a>
+            </div>
+            <button id="theme-toggle" aria-label="테마 전환">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
 
     <div class="main-wrapper">
+        <header id="hero">
+            <h1>당신의 내일은 <span class="highlight">오늘보다 빛날 것입니다.</span></h1>
+            <p>최신 AI 기술과 확률 통계를 결합하여 여러분의 일상에 행운을 더합니다.</p>
+        </header>
+
+        <!-- 광고 영역 (예시) -->
+        <div class="ad-placeholder">여기에 애드센스 광고가 게재됩니다.</div>
+
         <!-- 동물상 테스트 섹션 -->
-        <div class="container animal-test-container">
-            <h1>🐶 인공지능 동물상 테스트</h1>
-            <p class="subtitle">실시간 카메라로 나와 닮은 동물을 찾아보세요!</p>
-            
-            <button type="button" id="start-btn" onclick="init()">테스트 시작하기 (카메라 켜기)</button>
-            
+        <section id="animal-test" class="container animal-test-container">
+            <h2>🐶 인공지능 동물상 테스트</h2>
+            <p class="subtitle">구글 TensorFlow.js 모델을 통해 당신의 관상을 분석합니다.</p>
+            <button type="button" id="start-btn" onclick="init()">분석 시작하기</button>
             <div id="webcam-container"></div>
             <div id="label-container"></div>
-            <div id="loading-message" style="display:none;">카메라를 준비 중입니다...</div>
-        </div>
+            <div id="loading-message" style="display:none;">모델을 로드 중입니다...</div>
+            
+            <div class="content-block">
+                <h3>💡 동물상 테스트 기술 배경</h3>
+                <p>본 테스트는 구글의 Teachable Machine 오픈소스를 활용하여 수만 장의 데이터를 학습한 AI 모델로 구현되었습니다. 사용자의 얼굴 특징을 실시간으로 분석하여 강아지상, 고양이상 등 가장 닮은 동물을 예측합니다. 모든 이미지 데이터는 서버로 전송되지 않고 브라우저 내에서 안전하게 처리됩니다.</p>
+            </div>
+        </section>
 
         <!-- 로또 추첨기 섹션 -->
-        <div class="container">
-            <h1>🍀 로또 번호 추첨기</h1>
+        <section id="lotto-gen" class="container">
+            <h2>🍀 로또 번호 추첨기</h2>
             <div class="numbers-container">
                 <div class="number-circle">?</div>
                 <div class="number-circle">?</div>
@@ -47,33 +69,51 @@
                 <div class="number-circle">?</div>
             </div>
             <button id="generate-btn">번호 추첨하기</button>
-        </div>
+            
+            <div class="content-block">
+                <h3>🔢 로또 번호 생성 알고리즘 설명</h3>
+                <p>로또 번호 생성 알고리즘은 1부터 45까지의 숫자 중 중복되지 않는 6개의 숫자를 무작위로 추출합니다. 암호학적으로 안전한 난수 생성 기술을 바탕으로 공정성을 기했으며, 단순히 운에 맡기기보다 즐거움을 위한 도구로서의 역할을 수행합니다. 추첨 버튼을 눌러 당신만의 행운의 조합을 찾아보세요.</p>
+            </div>
+        </section>
+
+        <!-- 정보 섹션 (고품질 텍스트 추가) -->
+        <section id="info-section" class="container info-section">
+            <h2>🎲 행운을 부르는 생활 습관</h2>
+            <div class="article-grid">
+                <article>
+                    <h3>1. 긍정적인 마음가짐의 힘</h3>
+                    <p>심리학 연구에 따르면 긍정적인 기대는 실제로 운을 높이는 행동으로 이어진다고 합니다. 매일 아침 거울을 보며 웃는 연습을 하는 것이 행운을 부르는 첫걸음입니다.</p>
+                </article>
+                <article>
+                    <h3>2. 확률과 통계로 본 로또</h3>
+                    <p>로또 1등 당첨 확률은 약 814만 분의 1입니다. 매우 낮은 확률이지만, 매주 작은 금액으로 즐기는 즐거움은 일상의 활력소가 될 수 있습니다. 과도한 구매보다는 건전한 레저로 즐기시길 권장합니다.</p>
+                </article>
+            </div>
+        </section>
 
         <!-- 제휴 문의 섹션 -->
-        <div class="contact-container">
-            <h2>🤝 제휴 및 비즈니스 문의</h2>
-            <p>협업이나 광고 제안은 아래 폼을 통해 남겨주세요.</p>
+        <section id="contact" class="contact-container">
+            <h2>🤝 비즈니스 및 제휴 문의</h2>
             <form action="https://formspree.io/f/xqegylep" method="POST" id="contact-form">
                 <div class="form-group">
-                    <label for="name">성함/업체명</label>
-                    <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required>
+                    <label for="name">성함</label>
+                    <input type="text" id="name" name="name" placeholder="문의하시는 분 성함" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">이메일 주소</label>
-                    <input type="email" id="email" name="_replyto" placeholder="example@email.com" required>
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" name="_replyto" placeholder="답변을 받으실 메일 주소" required>
                 </div>
                 <div class="form-group">
-                    <label for="message">문의 내용</label>
-                    <textarea id="message" name="message" rows="4" placeholder="문의 내용을 입력해 주세요" required></textarea>
+                    <label for="message">문의 상세</label>
+                    <textarea id="message" name="message" rows="4" placeholder="상세한 문의 내용을 남겨주세요" required></textarea>
                 </div>
-                <input type="text" name="_gotcha" style="display:none">
-                <button type="submit" id="submit-btn">문의 보내기</button>
+                <button type="submit" id="submit-btn">제휴 문의 보내기</button>
             </form>
-        </div>
+        </section>
 
         <!-- 댓글 섹션 -->
         <div class="disqus-container">
-            <h2>💬 댓글 남기기</h2>
+            <h2>💬 방문자 한마디</h2>
             <div id="disqus_thread"></div>
             <script>
                 (function() {
@@ -85,6 +125,16 @@
             </script>
         </div>
     </div>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 AI 행운연구소. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="privacy.html">개인정보처리방침</a>
+                <a href="#hero">이용약관</a>
+            </div>
+        </div>
+    </footer>
 
     <script src="main.js"></script>
 </body>
