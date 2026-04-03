@@ -85,13 +85,13 @@
             </div>
         </section>
 
-        <!-- 광고 영역 -->
-        <div class="ad-placeholder">광고가 게재될 공간입니다.</div>
-
-        <!-- 동물상 테스트 섹션 -->
+        <!-- 동물상 테스트 섹션 (경고 문구 추가) -->
         <section id="animal-test" class="container animal-test-container">
             <h2>🐶 인공지능 동물상 테스트</h2>
             <p class="subtitle">사진을 업로드하여 당신과 닮은 동물을 찾아보세요!</p>
+            
+            <p class="warning-text">⚠️ AI 분석 모델을 불러오는 중입니다. 기기 사양에 따라 5~10초 정도 시간이 소요될 수 있으니 잠시만 기다려 주세요.</p>
+
             <div class="upload-area" id="upload-area">
                 <input type="file" id="image-upload" accept="image/*" style="display:none;">
                 <label for="image-upload" class="upload-label">
@@ -100,7 +100,10 @@
                 </label>
                 <img id="image-preview" src="#" alt="미리보기" style="display:none;">
             </div>
-            <div id="loading-message" style="display:none;">AI가 사진을 정밀 분석 중입니다...</div>
+
+            <div id="loading-message" class="loading-animation" style="display:none;">
+                <i class="fas fa-spinner fa-spin"></i> AI가 정밀 분석 중입니다. 창을 닫지 마세요...
+            </div>
             <div id="label-container"></div>
         </section>
 
@@ -134,15 +137,6 @@
                 <div class="numbers-bonus"><div class="number-circle bonus-circle">?</div></div>
             </div>
             <button id="generate-btn">번호 추첨하기</button>
-        </section>
-
-        <!-- 정보 섹션 -->
-        <section id="info-section" class="container info-section">
-            <h2>🎲 행운을 부르는 생활 습관</h2>
-            <div class="article-grid">
-                <article><h3>1. 긍정적인 마음가짐</h3><p>심리학에 따르면 긍정적인 기대는 실제로 운을 높이는 행동으로 이어진다고 합니다.</p></article>
-                <article><h3>2. 통계로 본 행운</h3><p>매주 작은 금액으로 즐기는 즐거움은 일상의 활력소가 될 수 있습니다.</p></article>
-            </div>
         </section>
 
         <!-- 제휴 문의 섹션 -->
