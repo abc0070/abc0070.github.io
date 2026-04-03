@@ -1,4 +1,4 @@
-// --- 공통: 테마 설정 ---
+// --- 1. 테마 및 네비게이션 제어 ---
 const themeToggle = document.getElementById('theme-toggle');
 const htmlTag = document.documentElement;
 const savedTheme = localStorage.getItem('theme') || 'light';
@@ -6,8 +6,7 @@ htmlTag.setAttribute('data-theme', savedTheme);
 updateThemeIcon(savedTheme);
 
 themeToggle.addEventListener('click', () => {
-    const currentTheme = htmlTag.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    const newTheme = htmlTag.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     htmlTag.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     updateThemeIcon(newTheme);
@@ -15,16 +14,11 @@ themeToggle.addEventListener('click', () => {
 
 function updateThemeIcon(theme) {
     const icon = themeToggle.querySelector('i');
-    if (theme === 'dark') {
-        icon.className = 'fas fa-sun';
-        themeToggle.style.color = '#ffffff';
-    } else {
-        icon.className = 'fas fa-moon';
-        themeToggle.style.color = '#2c3e50';
-    }
+    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    themeToggle.style.color = theme === 'dark' ? '#ffffff' : '#2c3e50';
 }
 
-// --- 오늘의 운세 & 행운 리포트 ---
+// --- 2. 오늘의 행운 리포트 (Hash-based) ---
 const fortuneBtn = document.getElementById('fortune-btn');
 const fortuneResult = document.getElementById('fortune-result');
 
@@ -32,9 +26,9 @@ if (fortuneBtn) {
     fortuneBtn.addEventListener('click', () => {
         const name = document.getElementById('user-name').value;
         const birth = document.getElementById('fortune-birth').value;
-        if (!name || !birth) { alert('이름과 생년월일을 정확히 입력해주세요!'); return; }
+        if (!name || !birth) { alert('정확한 리포트 생성을 위해 이름과 생년월일을 입력해주세요!'); return; }
 
-        fortuneBtn.textContent = '데이터 매칭 중...';
+        fortuneBtn.textContent = '알고리즘 연산 중...';
         fortuneBtn.disabled = true;
 
         setTimeout(() => {
@@ -42,50 +36,55 @@ if (fortuneBtn) {
             const seed = name + birth + today.toDateString();
             const hash = Array.from(seed).reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
-            const m = (hash * 7) % 41 + 60;
-            const l = (hash * 13) % 41 + 60;
+            // 확률 데이터 매핑
+            const m = (hash * 7) % 31 + 65; // 65~95
+            const l = (hash * 13) % 31 + 65;
+            const h = (hash * 19) % 31 + 65;
             
             document.getElementById('money-bar').style.width = m + '%';
             document.getElementById('money-text').textContent = m + '%';
             document.getElementById('love-bar').style.width = l + '%';
             document.getElementById('love-text').textContent = l + '%';
+            document.getElementById('health-bar').style.width = h + '%';
+            document.getElementById('health-text').textContent = h + '%';
 
-            const titles = ["대길(大吉)", "소길(小吉)", "평범(平安)", "보통(普通)"];
+            const icons = ["🌟", "🍀", "☀️", "🌈"];
+            const titles = ["대길(大吉): 운수대통", "소길(小吉): 평안한 하루", "평범(平安): 무난한 흐름", "유의(留意): 신중한 행보"];
             const comments = [
-                "에너지가 넘치는 날입니다. 새로운 프로젝트를 시작하기에 완벽한 시기입니다.",
-                "작은 기쁨이 따르는 날입니다. 주변의 의견을 경청하면 뜻밖의 수확이 있습니다.",
-                "평온한 하루입니다. 내실을 다지고 건강을 챙기는 시간을 가지세요.",
-                "신중함이 필요한 날입니다. 큰 결정보다는 일상을 유지하는 데 집중하세요."
+                "하늘의 기운이 당신을 돕고 있습니다. 망설이던 일을 오늘 추진하세요.",
+                "뜻밖의 장소에서 좋은 소식이 들려옵니다. 주변 사람들에게 베푸는 미덕을 발휘하세요.",
+                "안정적인 기운이 감도는 날입니다. 평소 미뤄두었던 자기 계발에 집중해보세요.",
+                "오늘은 에너지를 비축하는 날입니다. 큰 변화보다는 일상의 루틴을 지키는 것이 좋습니다."
             ];
 
             const idx = hash % titles.length;
+            document.getElementById('total-icon').textContent = icons[idx];
             document.getElementById('luck-title').textContent = titles[idx];
             document.getElementById('total-comment').textContent = comments[idx];
 
             fortuneResult.style.display = 'block';
-            fortuneBtn.textContent = '리포트 다시 생성';
+            fortuneBtn.textContent = '리포트 업데이트';
             fortuneBtn.disabled = false;
-            window.scrollTo({ top: fortuneResult.offsetTop - 100, behavior: 'smooth' });
-        }, 1200);
+            window.scrollTo({ top: fortuneResult.offsetTop - 120, behavior: 'smooth' });
+        }, 1500);
     });
 }
 
-// --- AI 동물상 분석 (TensorFlow.js) ---
+// --- 3. AI 동물상 분석 (TensorFlow.js) ---
 const MODEL_URL = "https://teachablemachine.withgoogle.com/models/Hscx2n06o/";
 let model, maxPredictions;
 
-async function loadAIModel() {
+async function loadAI() {
     try {
         model = await tmImage.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
         maxPredictions = model.getTotalClasses();
-        console.log("Neural Network Model Ready.");
     } catch(e) { console.log("AI Model Loading..."); }
 }
-loadAIModel();
+loadAI();
 
+const uploadArea = document.getElementById('upload-area');
 const imageUpload = document.getElementById('image-upload');
 const imagePreview = document.getElementById('image-preview');
-const uploadLabel = document.querySelector('.upload-label');
 const loadingMsg = document.getElementById('loading-message');
 const labelContainer = document.getElementById('label-container');
 
@@ -97,19 +96,19 @@ if (imageUpload) {
         reader.onload = (event) => {
             imagePreview.src = event.target.result;
             imagePreview.style.display = 'block';
-            uploadLabel.style.display = 'none';
+            document.querySelector('.upload-label').style.opacity = '0.1';
             imagePreview.onload = async () => {
                 loadingMsg.style.display = 'block';
                 labelContainer.innerHTML = '';
-                if(!model) await loadAIModel();
+                if(!model) await loadAI();
                 const prediction = await model.predict(imagePreview);
                 prediction.sort((a, b) => b.probability - a.probability);
-                labelContainer.innerHTML = '<h3>분석 결과 (일치 확률)</h3>';
+                labelContainer.innerHTML = '<h3 style="margin-bottom:20px;">AI 정밀 분석 결과</h3>';
                 prediction.forEach(p => {
                     const prob = (p.probability * 100).toFixed(0);
                     const res = document.createElement('div');
                     res.className = 'result-bar-wrapper';
-                    res.innerHTML = `<div class="label-text"><span>${p.className}</span><span>${prob}%</span></div><div class="bar-bg"><div class="bar-fill" style="width: ${prob}%"></div></div>`;
+                    res.innerHTML = `<div class="label-text"><span>${p.className}</span><span>${prob}%</span></div><div class="bar-bg" style="height:8px; background:#eee; border-radius:4px;"><div class="bar-fill" style="width: ${prob}%; height:100%; background:#3498db; border-radius:4px; transition:width 1s;"></div></div>`;
                     labelContainer.appendChild(res);
                 });
                 loadingMsg.style.display = 'none';
@@ -119,7 +118,7 @@ if (imageUpload) {
     });
 }
 
-// --- 전통 명리학 (사주) & 로또 추첨 ---
+// --- 4. 사주 분석 & 로또 시뮬레이션 ---
 const sajuBtn = document.getElementById('saju-btn');
 if (sajuBtn) {
     sajuBtn.addEventListener('click', () => {
@@ -130,9 +129,9 @@ if (sajuBtn) {
         const t = ["경", "신", "임", "계", "갑", "을", "병", "정", "무", "기"];
         const d = ["신", "유", "술", "해", "자", "축", "인", "묘", "진", "사", "오", "미"];
         document.getElementById('nyeon-ju').textContent = t[year % 10] + d[year % 12];
-        document.getElementById('wol-ju').textContent = t[(year*2)%10] + d[(year+5)%12];
-        document.getElementById('il-ju').textContent = t[(year+1)%10] + d[(year+1)%12];
-        document.getElementById('saju-comment').textContent = "균형 잡힌 오행의 기운이 느껴지는 명식입니다. 학구적인 재능과 끈기가 돋보입니다.";
+        document.getElementById('wol-ju').textContent = t[(year*3)%10] + d[(year+2)%12];
+        document.getElementById('il-ju').textContent = t[(year+7)%10] + d[(year+4)%12];
+        document.getElementById('saju-comment').textContent = "본 명조는 오행의 흐름이 막힘없고 중화를 이룬 격으로, 학문적 성취와 명예운이 높습니다.";
     });
 }
 
@@ -140,31 +139,35 @@ const generateBtn = document.getElementById('generate-btn');
 const numberCircles = document.querySelectorAll('.number-circle');
 if (generateBtn) {
     generateBtn.addEventListener('click', () => {
-        const nums = Array.from({length: 45}, (_, i) => i + 1).sort(() => Math.random() - 0.5).slice(0, 6).sort((a,b) => a-b);
-        nums.forEach((n, i) => {
+        generateBtn.disabled = true;
+        const nums = Array.from({length: 45}, (_, i) => i + 1).sort(() => Math.random() - 0.5);
+        const main = nums.slice(0, 6).sort((a,b) => a-b);
+        const bonus = nums[6];
+        [...main, bonus].forEach((n, i) => {
             setTimeout(() => {
                 numberCircles[i].textContent = n;
-                numberCircles[i].className = `number-circle ball-${Math.floor((n-1)/10)*10+1}`;
-            }, i * 150);
+                numberCircles[i].className = `number-circle ball-${Math.floor((n-1)/10)*10+1}${i===6?' bonus-ball':''}`;
+                if(i === 6) generateBtn.disabled = false;
+            }, i * 200);
         });
     });
 }
 
-// --- 코인 리스트 로드 ---
-function loadDailyCoins() {
-    const coinGrid = document.getElementById('coin-list');
-    if (!coinGrid) return;
-    const items = [
-        { n: '비트코인', s: 'BTC', i: '₿' },
-        { n: '이더리움', s: 'ETH', i: '💎' },
-        { n: '솔라나', s: 'SOL', i: '☀️' }
+// --- 5. 코인 데이터 로드 ---
+function loadCoins() {
+    const grid = document.getElementById('coin-list');
+    if (!grid) return;
+    const list = [
+        { n: '비트코인', s: 'BTC', i: '₿', p: '+5.2%' },
+        { n: '이더리움', s: 'ETH', i: '💎', p: '+3.8%' },
+        { n: '솔라나', s: 'SOL', i: '☀️', p: '+12.4%' }
     ];
-    coinGrid.innerHTML = '';
-    items.forEach(c => {
+    grid.innerHTML = '';
+    list.forEach(c => {
         const div = document.createElement('div');
         div.className = 'coin-card';
-        div.innerHTML = `<div style="font-size:2rem;">${c.i}</div><div style="font-weight:700;">${c.n}</div><div style="color:var(--text-sub); font-size:0.8rem;">${c.s}</div>`;
-        coinGrid.appendChild(div);
+        div.innerHTML = `<div style="font-size:2.5rem; margin-bottom:10px;">${c.i}</div><div style="font-weight:800; font-size:1.1rem;">${c.n}</div><div style="color:#636e72; font-size:0.8rem; margin-bottom:10px;">${c.s}</div><div style="color:#e74c3c; font-weight:800;">${c.p}</div>`;
+        grid.appendChild(div);
     });
 }
-loadDailyCoins();
+loadCoins();
