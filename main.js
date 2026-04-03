@@ -80,84 +80,68 @@ function getBallColorClass(number) {
     return 'ball-41';
 }
 
-// --- 동물상 테스트 (이미지 파일 업로드 버전) ---
-const MODEL_URL = "https://teachablemachine.withgoogle.com/models/Hscx2n06o/";
-let model, labelContainer, maxPredictions;
+// --- 동물상 테스트 (실시간 웹캠 버전 - 제공된 소스 기반) ---
+// const URL = "./my_model/"; // 로컬 모델 사용 시
+const URL = "https://teachablemachine.withgoogle.com/models/Hscx2n06o/"; // 온라인 모델 사용 시
 
-// 모델 미리 로드
-async function loadModel() {
-    try {
-        const modelURL = MODEL_URL + "model.json";
-        const metadataURL = MODEL_URL + "metadata.json";
-        model = await tmImage.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
-        console.log("AI Model loaded successfully");
-    } catch (e) {
-        console.error("Failed to load AI Model", e);
+let model, webcam, labelContainer, maxPredictions;
+
+// Load the image model and setup the webcam
+async function init() {
+    const startBtn = document.getElementById("start-btn");
+    const loadingMsg = document.getElementById("loading-message");
+    
+    startBtn.style.display = "none";
+    loadingMsg.style.display = "block";
+
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
+
+    // load the model and metadata
+    model = await tmImage.load(modelURL, metadataURL);
+    maxPredictions = model.getTotalClasses();
+
+    // Convenience function to setup a webcam
+    const flip = true; // whether to flip the webcam
+    webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
+    await webcam.setup(); // request access to the webcam
+    await webcam.play();
+    window.requestAnimationFrame(loop);
+
+    loadingMsg.style.display = "none";
+    // append elements to the DOM
+    document.getElementById("webcam-container").appendChild(webcam.canvas);
+    labelContainer = document.getElementById("label-container");
+    for (let i = 0; i < maxPredictions; i++) { // and class labels
+        labelContainer.appendChild(document.createElement("div"));
     }
 }
-loadModel();
 
-const imageUpload = document.getElementById('image-upload');
-const imagePreview = document.getElementById('image-preview');
-const loadingMsg = document.getElementById('loading-message');
-labelContainer = document.getElementById('label-container');
+async function loop() {
+    webcam.update(); // update the webcam frame
+    await predict();
+    window.requestAnimationFrame(loop);
+}
 
-// 파일이 선택되었을 때의 이벤트
-imageUpload.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    
-    // 파일 읽기가 완료되면
-    reader.onload = (event) => {
-        // 이미지 미리보기 소스 설정
-        imagePreview.src = event.target.result;
-        imagePreview.style.display = 'block';
-        
-        // 이미지 태그에 로드가 완료된 시점에 분석 실행
-        imagePreview.onload = async () => {
-            loadingMsg.style.display = 'block';
-            labelContainer.innerHTML = ''; 
-            
-            if (!model) await loadModel();
-            
-            // AI 판단 실행
-            await predict(imagePreview);
-            loadingMsg.style.display = 'none';
-        };
-    };
-    
-    reader.readAsDataURL(file);
-});
-
-async function predict(imgElement) {
-    if (!model) return;
-    
-    // 모델 예측 수행
-    const prediction = await model.predict(imgElement);
-    
-    // 확률 순으로 정렬
-    prediction.sort((a, b) => b.probability - a.probability);
-
-    // 결과 레이아웃 생성
-    labelContainer.innerHTML = ''; // 초기화
+// run the webcam image through the image model
+async function predict() {
+    // predict can take in an image, video or canvas html element
+    const prediction = await model.predict(webcam.canvas);
     for (let i = 0; i < maxPredictions; i++) {
         const className = prediction[i].className;
         const probability = (prediction[i].probability * 100).toFixed(0);
         
-        const resultItem = document.createElement('div');
-        resultItem.className = 'result-bar-wrapper';
-        resultItem.innerHTML = `
-            <div class="label-text">
-                <span>${className}</span>
-                <span>${probability}%</span>
-            </div>
-            <div class="bar-bg">
-                <div class="bar-fill" style="width: ${probability}%"></div>
+        // 결과 표시를 세련된 바 형태로 업데이트
+        labelContainer.childNodes[i].innerHTML = `
+            <div class="result-bar-wrapper">
+                <div class="label-text">
+                    <span>${className}</span>
+                    <span>${probability}%</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" style="width: ${probability}%"></div>
+                </div>
             </div>
         `;
-        labelContainer.appendChild(resultItem);
     }
 }
