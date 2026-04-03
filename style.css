@@ -1,72 +1,97 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #121212;
-    background-image: linear-gradient(315deg, #121212 0%, #373737 74%);
-    color: #ffffff;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #f0f2f5;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    text-align: center;
+    color: #333;
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: white;
+    padding: 50px 40px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
 }
 
 h1 {
-    font-size: 2.5em;
-    margin-bottom: 30px;
-    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #2c3e50;
 }
 
 .numbers-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 50px;
 }
 
 .number-circle {
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
-    margin: 0 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 700;
     color: #fff;
-    background-size: 200% 200%;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    transform: translateY(20px) scale(0);
-    opacity: 0;
-    transition: transform 0.5s ease, opacity 0.5s ease;
+    background-color: #ddd;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: scale(1);
+    opacity: 1;
 }
 
+/* 로또 번호별 색상 */
+.ball-1 { background-color: #fbc400; text-shadow: 0 1px 2px rgba(0,0,0,0.2); } /* 1~10 */
+.ball-11 { background-color: #69c8f2; text-shadow: 0 1px 2px rgba(0,0,0,0.2); } /* 11~20 */
+.ball-21 { background-color: #ff7272; text-shadow: 0 1px 2px rgba(0,0,0,0.2); } /* 21~30 */
+.ball-31 { background-color: #aaa; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }    /* 31~40 */
+.ball-41 { background-color: #b0d840; text-shadow: 0 1px 2px rgba(0,0,0,0.2); } /* 41~45 */
+
 #generate-btn {
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: 600;
+    padding: 18px 45px;
+    font-size: 1.2rem;
+    font-weight: 700;
     cursor: pointer;
-    background: linear-gradient(45deg, #FF416C, #FF4B2B);
+    background: #3498db;
     color: white;
     border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+    transition: all 0.3s ease;
 }
 
 #generate-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 65, 108, 0.6);
+    background: #2980b9;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
 }
 
 #generate-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+    .number-circle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+    }
+    .container {
+        padding: 40px 20px;
+    }
 }
